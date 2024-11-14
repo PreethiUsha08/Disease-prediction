@@ -18,7 +18,7 @@ def predict_disease( age, sex, albumin, alkaline_phosphatase, alanine_aminotrans
     Returns:
         str: The predicted category (e.g., 'no_disease', 'severe_disease', 'hepatitis', 'fibrosis', 'cirrhosis').
     """
-   if sex == "male":
+   if sex == "m":
        sex = 1
    else:
        sex = 0
