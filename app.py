@@ -38,11 +38,11 @@ def predict_disease(input_data):
     
     # Map prediction to disease category
     disease_mapping = {
-        0: 'No Disease',
-        1: 'Severe Disease',
+        3: 'No Disease',
+        4: 'Suspect_Disease',
         2: 'Hepatitis',
-        3: 'Fibrosis',
-        4: 'Cirrhosis'
+        1: 'Fibrosis',
+        0: 'Cirrhosis'
     }
     
     return disease_mapping.get(prediction[0], "Unknown")
@@ -61,7 +61,7 @@ aspartate_aminotransferase = st.number_input("Aspartate Aminotransferase", min_v
 bilirubin = st.number_input("Bilirubin", min_value=0.0, value=7.5)
 cholinesterase = st.number_input("Cholinesterase", min_value=0.0, value=6.93)
 cholesterol = st.number_input("Cholesterol", min_value=0.0, value=3.23)
-creatinina = st.number_input("Creatinina", min_value=0.0, value=106)
+creatinina = st.number_input("Creatinina", min_value=0, value=106)
 gamma_glutamyl_transferase = st.number_input("Gamma Glutamyl Transferase", min_value=0.0, value=12.1)
 protein = st.number_input("Protein", min_value=0.0, value=69.0)
 
