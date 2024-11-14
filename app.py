@@ -1,5 +1,6 @@
 import pickle
 import pandas as pd
+import numpy as np
 import streamlit as st
 import xgboost as xgb
 
@@ -8,31 +9,31 @@ with open('xgboost_model (2).pkl', 'rb') as file:
     model = pickle.load(file)
 
 # Define a function to make a prediction based on input features
-def predict_disease( age, sex, albumin, alkaline_phosphatase, alanine_aminotransferase,
-    aspartate_aminotransferase, bilirubin, cholinesterase, cholesterol,
-    creatinina, gamma_glutamyl_transferase, protein):
+def predict_disease(age, sex, albumin, alkaline_phosphatase, alanine_aminotransferase,
+                    aspartate_aminotransferase, bilirubin, cholinesterase, cholesterol,
+                    creatinina, gamma_glutamyl_transferase, protein):
     """
     Predicts the disease presence based on input features.
     Parameters:
-        input_data (dict): A dictionary of features with values for each required input.
+        Various features as arguments.
     Returns:
         str: The predicted category (e.g., 'no_disease', 'severe_disease', 'hepatitis', 'fibrosis', 'cirrhosis').
     """
-   sex = 1 if sex == "m" else 0
+    # Encode 'sex' as 1 for 'm' and 0 for 'f'
+    sex = 1 if sex == "m" else 0
 
-    # Convert input data into a DataFrame
-    features = np.array([age, sex, albumin, alkaline_phosphatase, alanine_aminotransferase,
-    aspartate_aminotransferase, bilirubin, cholinesterase, cholesterol,
-    creatinina, gamma_glutamyl_transferase, protein])
-
-   
+    # Convert input data into a 2D array
+    features = np.array([[age, sex, albumin, alkaline_phosphatase, alanine_aminotransferase,
+                          aspartate_aminotransferase, bilirubin, cholinesterase, cholesterol,
+                          creatinina, gamma_glutamyl_transferase, protein]])
+    
     # Use the model to make a prediction
     prediction = model.predict(features)
     
     # Map prediction to disease category
     disease_mapping = {
         3: 'No Disease',
-        4: 'Suspect_Disease',
+        4: 'Suspect Disease',
         2: 'Hepatitis',
         1: 'Fibrosis',
         0: 'Cirrhosis'
@@ -60,23 +61,10 @@ protein = st.number_input("Protein", min_value=0.0, value=69.0)
 
 # Button to trigger prediction
 if st.button("Predict"):
-    input_data = {
-        "age": age,
-        "sex": sex,
-        "albumin": albumin,
-        "alkaline_phosphatase": alkaline_phosphatase,
-        "alanine_aminotransferase": alanine_aminotransferase,
-        "aspartate_aminotransferase": aspartate_aminotransferase,
-        "bilirubin": bilirubin,
-        "cholinesterase": cholinesterase,
-        "cholesterol": cholesterol,
-        "creatinina": creatinina,
-        "gamma_glutamyl_transferase": gamma_glutamyl_transferase,
-        "protein": protein
-    }
-    
     # Make prediction
-    result = predict_disease(input_data)
+    result = predict_disease(age, sex, albumin, alkaline_phosphatase, alanine_aminotransferase,
+                             aspartate_aminotransferase, bilirubin, cholinesterase, cholesterol,
+                             creatinina, gamma_glutamyl_transferase, protein)
     
     # Display result
     st.success(f"Prediction: {result}")
