@@ -4,7 +4,7 @@ import streamlit as st
 import xgboost as xgb
 
 # Load the trained XGBoost model from the pickle file
-with open('xgboost_model.pkl', 'rb') as file:
+with open('xgboost_model (2).pkl', 'rb') as file:
     model = pickle.load(file)
 
 # Define a function to make a prediction based on input features
