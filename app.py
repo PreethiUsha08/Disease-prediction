@@ -8,7 +8,9 @@ with open('xgboost_model (2).pkl', 'rb') as file:
     model = pickle.load(file)
 
 # Define a function to make a prediction based on input features
-def predict_disease(input_data):
+def predict_disease( age, sex, albumin, alkaline_phosphatase, alanine_aminotransferase,
+    aspartate_aminotransferase, bilirubin, cholinesterase, cholesterol,
+    creatinina, gamma_glutamyl_transferase, protein):
     """
     Predicts the disease presence based on input features.
     Parameters:
@@ -16,23 +18,17 @@ def predict_disease(input_data):
     Returns:
         str: The predicted category (e.g., 'no_disease', 'severe_disease', 'hepatitis', 'fibrosis', 'cirrhosis').
     """
-    # Convert 'sex' feature to numeric (1 for 'm', 0 for 'f')
-    input_data['sex'] = 1 if input_data['sex'] == 'm' else 0
+   if sex == "male":
+       sex = 1
+   else:
+       sex = 0
 
     # Convert input data into a DataFrame
-    features = pd.DataFrame([input_data])
+    features = np.array([age, sex, albumin, alkaline_phosphatase, alanine_aminotransferase,
+    aspartate_aminotransferase, bilirubin, cholinesterase, cholesterol,
+    creatinina, gamma_glutamyl_transferase, protein])
 
-    # Add any missing columns with a default value of 0
-    for col in X.columns:
-        if col not in features.columns:
-            features[col] = 0
-
-    # Ensure the features are in the same order as in the training data
-    features = features[X.columns]
-
-    # Ensure all columns are numeric for compatibility with XGBoost
-    features = features.apply(pd.to_numeric, errors='coerce')
-
+   
     # Use the model to make a prediction
     prediction = model.predict(features)
     
