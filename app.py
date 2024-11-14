@@ -39,7 +39,7 @@ def predict_disease(age, sex, albumin, alkaline_phosphatase, alanine_aminotransf
         0: 'Cirrhosis'
     }
     
-    return disease_mapping.get(prediction[5], "Unknown")
+    return disease_mapping.get(prediction[3], "Unknown")
 
 # Streamlit UI elements
 st.title("Disease Prediction")
